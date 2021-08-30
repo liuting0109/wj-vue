@@ -53,11 +53,12 @@ export default {
 </script>
 
 <style scoped>
-.categories {
-  position: fixed;
-  margin-left: 50%;
-  left: -600px;
-  top: 100px;
-  width: 150px;
-}
+/*注释掉后侧边栏不会固定位置，随浏览器页面大小适配*/
+/*.categories {*/
+/*  position: fixed;*/
+/*  margin-left: 50%;*/
+/*  left: -600px;*/
+/*  top: 100px;*/
+/*  width: 150px;*/
+/*}*/
 </style>
