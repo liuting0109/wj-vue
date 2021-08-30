@@ -37,17 +37,27 @@
 
 <script>
 export default {
-  name: 'SideMenu'
+  name: 'SideMenu',
+  data () {
+    return {
+      cid: ''
+    }
+  },
+  methods: {
+    handleSelect (key, keyPath) {
+      this.cid = key
+      this.$emit('indexSelect')
+    }
+  }
 }
 </script>
 
 <style scoped>
-/*注释掉后侧边栏不会固定位置，随浏览器页面大小适配*/
-/*.categories {*/
-/*  position: fixed;*/
-/*  margin-left: 50%;*/
-/*  left: -600px;*/
-/*  top: 100px;*/
-/*  width: 150px;*/
-/*}*/
+.categories {
+  position: fixed;
+  margin-left: 50%;
+  left: -600px;
+  top: 100px;
+  width: 150px;
+}
 </style>
