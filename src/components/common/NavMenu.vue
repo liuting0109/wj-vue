@@ -29,6 +29,11 @@ export default {
       ]
     }
   },
+  computed: {
+    hoverBackground () {
+      return '#ffd04b'
+    }
+  },
   methods: {
     logout () {
       var _this = this

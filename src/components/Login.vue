@@ -52,7 +52,7 @@ export default {
             // 获取登录前页面的路径并跳转，如果该路径不存在，则跳转到首页
             _this.$store.commit('login', _this.loginForm)
             var path = this.$route.query.redirect
-            this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
+            this.$router.replace({path: path === '/' || path === undefined ? '/admin' : path})
           }
         })
         .catch(failResponse => {

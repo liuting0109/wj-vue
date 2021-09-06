@@ -19,10 +19,17 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 // 使用钩子函数判断是否拦截,在访问每一个路由前调用
 router.beforeEach((to, from, next) => {
+  // 如果前端没有登录信息则直接拦截，如果有则判断后端是否正常登录（防止构造参数绕过）
+  if (store.state.user.username && to.path.startsWith('/admin')) {
+    axios.get('/authentication').then(resp => {
+      console.log('菜单加载成功')
+      initAdminMenu(router, store)
+    })
+  }
   // 首先判断访问的路径是否需要被拦截进行登录
   if (to.meta.requireAuth) {
     // 判断 store 里有没有存储 user 的信息，如果存在，则放行
-    if (store.state.user) {
+    if (store.state.user.username) {
       axios.get('/authentication').then(resp => {
         console.log('resp:', resp)
         if (resp.data) {
@@ -49,6 +56,44 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+export const initAdminMenu = (router, store) => {
+  // 防止重复触发加载菜单操作
+  if (store.state.adminMenus.length > 0) {
+    return
+  }
+  axios.get('/menu').then(resp => {
+    if (resp && resp.status === 200) {
+      var fmtRoutes = formatRoutes(resp.data.result)
+      router.addRoutes(fmtRoutes)
+      store.commit('initAdminMenu', fmtRoutes)
+    }
+  })
+}
+
+const formatRoutes = (routes) => {
+  console.log('router-lt:', routes)
+  let fmtRoutes = []
+  routes.forEach(route => {
+    console.log('router-lt1:', router)
+    if (route.children) {
+      route.children = formatRoutes(route.children)
+    }
+
+    let fmtRoute = {
+      path: route.path,
+      component: resolve => {
+        require(['./components/admin/' + route.component + '.vue'], resolve)
+      },
+      name: route.name,
+      nameZh: route.nameZh,
+      iconCls: route.iconCls,
+      children: route.children
+    }
+    fmtRoutes.push(fmtRoute)
+  })
+  return fmtRoutes
+}
 
 /* eslint-disable no-new */
 new Vue({
