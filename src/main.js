@@ -65,6 +65,10 @@ export const initAdminMenu = (router, store) => {
   axios.get('/menu').then(resp => {
     if (resp && resp.status === 200) {
       var fmtRoutes = formatRoutes(resp.data.result)
+      // resp.data为object
+      console.log('resp.data', resp.data)
+      // resp.data.result为数组
+      console.log('resp.data.result', resp.data.result)
       router.addRoutes(fmtRoutes)
       store.commit('initAdminMenu', fmtRoutes)
     }
@@ -72,10 +76,10 @@ export const initAdminMenu = (router, store) => {
 }
 
 const formatRoutes = (routes) => {
-  console.log('router-lt:', routes)
+  // console.log('router-lt:', routes)
   let fmtRoutes = []
   routes.forEach(route => {
-    console.log('router-lt1:', router)
+    // console.log('router-lt1:', router)
     if (route.children) {
       route.children = formatRoutes(route.children)
     }

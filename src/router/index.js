@@ -7,6 +7,7 @@ import Home from '../components/Home'
 import LibraryIndex from '../components/library/LibraryIndex'
 import Register from '../components/Register'
 import AdminIndex from '../components/admin/AdminIndex'
+import UserBasic from '../components/admin/user/UserBasic'
 
 Vue.use(Router)
 
@@ -64,7 +65,14 @@ export default new Router({
       component: AdminIndex,
       meta: {
         requireAuth: true
-      }
+      },
+      children: [
+        {
+          path: '/admin/basic',
+          name: 'basic',
+          component: UserBasic
+        }
+      ]
     }
   ]
 })
